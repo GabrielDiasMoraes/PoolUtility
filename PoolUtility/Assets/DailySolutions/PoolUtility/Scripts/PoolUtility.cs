@@ -11,14 +11,14 @@ namespace DailySolutions.PoolUtility.Scripts
         private readonly Stack<PoolableItem> _poolStack;
         private readonly PoolableItem _referenceItem;
         private readonly Transform _parent;
-        private readonly Func<PoolableItem, Transform, PoolableItem> _custonInstantiator;
+        private readonly Func<PoolableItem, Transform, PoolableItem> _customInstantiator;
 
         public PoolUtility(PoolableItem referenceItem, int amount = 0, Transform parent = null, Func<PoolableItem, Transform, PoolableItem> customInstantiator = null)
         {
             _poolStack = new Stack<PoolableItem>();
             _referenceItem = referenceItem;
             _parent = parent;
-            _custonInstantiator = customInstantiator;
+            _customInstantiator = customInstantiator;
             PreLoadPrefab(amount);
         }
         
@@ -46,7 +46,7 @@ namespace DailySolutions.PoolUtility.Scripts
         private PoolableItem Instantiate()
         {
             PoolableItem newItem = null;
-            newItem = _custonInstantiator == null ? Object.Instantiate(_referenceItem, _parent) : _custonInstantiator.Invoke(_referenceItem, _parent);
+            newItem = _customInstantiator == null ? Object.Instantiate(_referenceItem, _parent) : _customInstantiator.Invoke(_referenceItem, _parent);
             newItem.SetupPool(this);
             return newItem;
         }
